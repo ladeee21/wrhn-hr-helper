@@ -1,5 +1,5 @@
 export type Policy = { file: string; title: string; version: string; effectiveDate: string; effectiveNote: string; linkedTickets: number; loaded: boolean; handling: string };
-export type Clause = { id: string; policyFile: string; ref: string; text: string; note?: string; related?: string[]; tableRow?: boolean };
+export type Clause = { id: string; policyFile: string; ref: string; text: string; note?: string | undefined; related?: string[] | undefined; tableRow?: boolean | undefined };
 export type ClarifyOption = { label: string; keywords: string[]; clauseId?: string; next?: ClarifyPrompt };
 export type ClarifyPrompt = { id: string; question: string; field: string; options: ClarifyOption[] };
 export type Topic = { id: string; keywords: string[] };
