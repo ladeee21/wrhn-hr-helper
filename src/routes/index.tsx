@@ -1,24 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { CalendarDays, ChevronRight, FileText, FolderOpen, Home, LockKeyhole, Scale, Search, Users } from "lucide-react";
+import { WrhnLogo } from "@/components/wrhn-logo";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+export const Route=createFileRoute("/")({head:()=>({meta:[{title:"HR Team Hub — WRHN"},{name:"description",content:"Mock People Operations and HR team site for the WRHN prototype."},{property:"og:title",content:"HR Team Hub — WRHN"},{property:"og:description",content:"Mock People Operations and HR team site for the WRHN prototype."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:Index});
+const items=[{name:"Home",icon:Home,current:true},{name:"Policies in PolicyStat",icon:FileText},{name:"Collective agreements",icon:Scale},{name:"Forms",icon:FolderOpen},{name:"Process documents",icon:FileText},{name:"HR Research Assistant",icon:Search,link:true,new:true},{name:"Team calendar",icon:CalendarDays}];
+const quick=["PolicyStat","Collective agreements","Forms","Process documents"];
+function Index(){return <div className="min-h-screen bg-background text-foreground">
+<header className="border-b bg-card"><div className="mx-auto flex min-h-18 max-w-[1500px] flex-wrap items-center gap-4 px-4 py-3 sm:px-7"><WrhnLogo/><div className="hidden h-9 w-px bg-border sm:block"/><strong className="mr-auto text-base sm:text-lg">People Operations, HR team site</strong><div className="hidden items-center gap-2 text-xs text-muted-foreground lg:flex"><LockKeyhole className="size-4"/>Private. HR Advisors and People Operations Associates only.</div><div className="flex items-center gap-2"><span className="flex size-9 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">HA</span><span className="hidden text-sm font-medium sm:inline">HR Advisor (demo)</span></div></div></header>
+<div className="mx-auto grid max-w-[1500px] md:grid-cols-[250px_1fr]"><aside className="border-b bg-card p-4 md:min-h-[calc(100vh-73px)] md:border-r md:border-b-0 md:p-5"><nav aria-label="HR team site"><ul className="flex gap-1 overflow-x-auto md:block md:space-y-1">{items.map(({name,icon:Icon,current,link,new:newItem})=><li key={name} className="shrink-0">{link?<Link to="/assistant" className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-primary hover:bg-accent"><Icon className="size-4"/><span>{name}</span>{newItem&&<span className="ml-auto rounded-full bg-primary-soft px-2 py-0.5 text-xs text-primary">New</span>}</Link>:<span title={current?undefined:"Not part of this prototype"} className={`flex items-center gap-3 rounded-md px-3 py-2.5 text-sm ${current?"bg-accent font-semibold":"text-muted-foreground"}`}><Icon className="size-4"/>{name}</span>}</li>)}</ul></nav></aside>
+<main className="min-w-0 px-5 py-9 sm:px-10 lg:px-14 lg:py-12"><div className="max-w-6xl"><h1 className="text-3xl font-semibold sm:text-4xl">HR Team Hub</h1><p className="mt-3 text-lg text-muted-foreground">Welcome back. Find HR tools, documents, and team updates.</p>
+<section className="mt-10"><h2 className="text-xl font-semibold">Quick links</h2><div className="mt-4 grid gap-px overflow-hidden border bg-border sm:grid-cols-2 xl:grid-cols-5">{quick.map((x,i)=><div key={x} title="Not part of this prototype" className="flex min-h-32 flex-col justify-between bg-card p-5"><span className="flex size-8 items-center justify-center rounded-md bg-muted"><FileText className="size-4"/></span><span className="mt-5 font-semibold">{x}</span><span className="mt-1 text-sm text-muted-foreground">Open team resource</span></div>)}<Link to="/assistant" className="relative flex min-h-32 flex-col justify-between bg-card p-5 outline outline-2 -outline-offset-2 outline-primary hover:bg-accent"><span className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground"><Search className="size-4"/></span><span className="mt-5 flex items-center justify-between font-semibold text-primary">HR Research Assistant<ChevronRight className="size-4"/></span><span className="mt-1 text-sm text-muted-foreground">Look up the governing policy clause for an inquiry, with its source.</span></Link></div></section>
+<div className="mt-12 grid gap-10 lg:grid-cols-[1.5fr_1fr]"><section><h2 className="text-xl font-semibold">Announcements</h2><div className="mt-3 divide-y border-y">{["Quarterly HR operations meeting materials are now available.","The forms library navigation has been updated.","October office hours have been added to the team calendar."].map((x,i)=><article key={x} className="py-4"><p className="font-medium">{x}</p><p className="mt-1 text-sm text-muted-foreground">Team update · October {6-i}, 2026</p></article>)}</div></section><section><h2 className="text-xl font-semibold">Team contacts</h2><div className="mt-3 divide-y border-y">{["People Operations supervisor","Labour Relations","Health and Wellness","Payroll"].map(x=><div key={x} className="flex items-center gap-3 py-4"><Users className="size-4 text-muted-foreground"/><span className="font-medium">{x}</span></div>)}</div></section></div>
+<p className="mt-14 border-t pt-5 text-xs text-muted-foreground">This page is a mock of the HR SharePoint site, shown for the prototype.</p></div></main></div></div>}
