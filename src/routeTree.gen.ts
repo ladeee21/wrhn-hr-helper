@@ -10,33 +10,80 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AssistantRouteImport } from './routes/assistant'
+import { Route as AssistantIndexRouteImport } from './routes/assistant.index'
+import { Route as AssistantReviewRouteImport } from './routes/assistant.review'
+import { Route as AssistantSourcesRouteImport } from './routes/assistant.sources'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantIndexRoute = AssistantIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AssistantRoute,
+} as any)
+const AssistantReviewRoute = AssistantReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => AssistantRoute,
+} as any)
+const AssistantSourcesRoute = AssistantSourcesRouteImport.update({
+  id: '/sources',
+  path: '/sources',
+  getParentRoute: () => AssistantRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRouteWithChildren
+  '/assistant/review': typeof AssistantReviewRoute
+  '/assistant/sources': typeof AssistantSourcesRoute
+  '/assistant/': typeof AssistantIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistant/review': typeof AssistantReviewRoute
+  '/assistant/sources': typeof AssistantSourcesRoute
+  '/assistant': typeof AssistantIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRouteWithChildren
+  '/assistant/review': typeof AssistantReviewRoute
+  '/assistant/sources': typeof AssistantSourcesRoute
+  '/assistant/': typeof AssistantIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/assistant'
+    | '/assistant/review'
+    | '/assistant/sources'
+    | '/assistant/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/assistant/review' | '/assistant/sources' | '/assistant'
+  id:
+    | '__root__'
+    | '/'
+    | '/assistant'
+    | '/assistant/review'
+    | '/assistant/sources'
+    | '/assistant/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssistantRoute: typeof AssistantRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +95,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant/': {
+      id: '/assistant/'
+      path: '/'
+      fullPath: '/assistant/'
+      preLoaderRoute: typeof AssistantIndexRouteImport
+      parentRoute: typeof AssistantRoute
+    }
+    '/assistant/review': {
+      id: '/assistant/review'
+      path: '/review'
+      fullPath: '/assistant/review'
+      preLoaderRoute: typeof AssistantReviewRouteImport
+      parentRoute: typeof AssistantRoute
+    }
+    '/assistant/sources': {
+      id: '/assistant/sources'
+      path: '/sources'
+      fullPath: '/assistant/sources'
+      preLoaderRoute: typeof AssistantSourcesRouteImport
+      parentRoute: typeof AssistantRoute
+    }
   }
 }
 
+interface AssistantRouteChildren {
+  AssistantReviewRoute: typeof AssistantReviewRoute
+  AssistantSourcesRoute: typeof AssistantSourcesRoute
+  AssistantIndexRoute: typeof AssistantIndexRoute
+}
+
+const AssistantRouteChildren: AssistantRouteChildren = {
+  AssistantReviewRoute: AssistantReviewRoute,
+  AssistantSourcesRoute: AssistantSourcesRoute,
+  AssistantIndexRoute: AssistantIndexRoute,
+}
+
+const AssistantRouteWithChildren = AssistantRoute._addFileChildren(
+  AssistantRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssistantRoute: AssistantRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
