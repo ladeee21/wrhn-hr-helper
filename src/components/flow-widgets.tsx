@@ -69,10 +69,10 @@ export function LetterPreview({ data }: { data: LetterData }) {
 }
 
 export class TurnBoundary extends Component<{ children: ReactNode; onNew: () => void }, { failed: boolean; key: number }> {
-  state = { failed: false, key: 0 };
+  override state = { failed: false, key: 0 };
   static getDerivedStateFromError() { return { failed: true }; }
-  componentDidCatch(error: Error, info: ErrorInfo) { console.error("Conversation turn failed", error, info.componentStack); }
-  render() {
+  override componentDidCatch(error: Error, info: ErrorInfo) { console.error("Conversation turn failed", error, info.componentStack); }
+  override render() {
     if (this.state.failed) return (
       <div role="alert" className="border border-caution bg-caution-soft px-5 py-4">
         <p className="font-semibold text-caution">Something went wrong with this answer. Try again.</p>

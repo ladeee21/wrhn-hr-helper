@@ -209,7 +209,7 @@ const benefitsFlow: Flow = {
       };
     } else {
       const s31 = { clauseId: "BC-3.1", label: "How to enrol" }, s32 = { clauseId: "BC-3.2", label: "Who is eligible" };
-      a = { sections: casual ? [s32, s31] : [s31, s32], cautions: casual ? ["Casual employees are not eligible for the pension plan. Check with People Operations before replying."] : [], forms: ["pension"] };
+      a = { sections: [...elig, ...(casual ? [s32, s31] : [s31, s32])], cautions: casual ? ["Casual employees are not eligible for the pension plan. Check with People Operations before replying."] : [], forms: ["pension"] };
     }
     return { ...a, related: bcRelated(topic), draft: bcDraft(a.sections.map((s) => s.clauseId)) };
   },

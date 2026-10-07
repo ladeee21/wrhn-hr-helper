@@ -7,6 +7,7 @@ import { clauseById, policyByFile, type Clause, type Ticket } from "@/lib/hr-res
 import { SYNTHETIC_TAG } from "@/lib/hr-flow-data";
 import { formTitles, type FlowAnswer, type FlowState, type Section } from "@/lib/hr-flow-engine";
 import { useHrResearch } from "@/lib/hr-research-context";
+import { newId } from "@/lib/utils";
 
 export function legacyAnswer(clause: Clause): FlowAnswer {
   const p = policyByFile(clause.policyFile);
@@ -53,7 +54,7 @@ export function AnswerCard({ answer, question, ticket, onAsk, onState }: { answe
   const give = (choice: string) => {
     setFeedback(choice);
     if (ticket) addCheck({ id: `${ticket.id}-${p.file}`, ticketId: ticket.id, ticketLabel: ticket.candidateLabel ?? "none", retrievedPolicy: p.file, result: result ?? "Different" });
-    if (choice !== "Correct") addReview({ id: crypto.randomUUID(), question: ticket ? `${ticket.subject} (${ticket.id})` : question, verdict: choice, clause: refs, date: new Date().toISOString().slice(0, 10), status: "Open" });
+    if (choice !== "Correct") addReview({ id: newId(), question: ticket ? `${ticket.subject} (${ticket.id})` : question, verdict: choice, clause: refs, date: new Date().toISOString().slice(0, 10), status: "Open" });
     toast("Thanks. Flagged answers go to the review queue.");
   };
   const copy = async () => {
