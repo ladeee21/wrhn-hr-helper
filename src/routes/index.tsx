@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { CalendarDays, ChevronRight, FileText, FolderOpen, Home, LockKeyhole, Scale, Search, Users } from "lucide-react";
 import { WrhnLogo } from "@/components/wrhn-logo";
 
-export const Route=createFileRoute("/")({head:()=>({meta:[{title:"HR Team Hub — WRHN"},{name:"description",content:"Mock People Operations and HR team site for the WRHN prototype."},{property:"og:title",content:"HR Team Hub — WRHN"},{property:"og:description",content:"Mock People Operations and HR team site for the WRHN prototype."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:Index});
+export const Route=createFileRoute("/")({head:()=>({meta:[{title:"HR Team Hub"},{name:"description",content:"Mock People Operations and HR team site for the WRHN prototype."},{property:"og:title",content:"HR Team Hub"},{property:"og:description",content:"Mock People Operations and HR team site for the WRHN prototype."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:Index});
 const items=[{name:"Home",icon:Home,current:true},{name:"Policies in PolicyStat",icon:FileText},{name:"Collective agreements",icon:Scale},{name:"Forms",icon:FolderOpen},{name:"Process documents",icon:FileText},{name:"HR Research Assistant",icon:Search,link:true,new:true},{name:"Team calendar",icon:CalendarDays}];
 const quick=["PolicyStat","Collective agreements","Forms","Process documents"];
 function Index(){return <div className="min-h-screen bg-background text-foreground">
