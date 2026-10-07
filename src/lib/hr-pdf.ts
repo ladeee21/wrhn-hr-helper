@@ -34,13 +34,9 @@ async function newDoc() {
 
 export async function letterPdf(d: LetterData, today = todayISO()) {
   const L = buildLetter(d, today);
-  const { doc, M, width } = await newDoc();
-  let { y } = await Promise.resolve({ y: 0 });
-  y = 72 + 0;
-  // recompute y below logo by drawing on the doc returned
-  const start = (doc as unknown as { __y?: number }).__y;
-  void start;
-  y = 160;
+  const nd = await newDoc();
+  const { doc, M, width } = nd;
+  let y = nd.y;
   const para = (text: string, bold = false, gap = 16) => {
     doc.setFont("times", bold ? "bold" : "normal").setFontSize(11);
     const lines = doc.splitTextToSize(text, width) as string[];
