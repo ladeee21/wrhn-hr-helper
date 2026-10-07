@@ -3,7 +3,8 @@ import { buildLetter, daysBetween, longDate, money, nextAnniversary, noticeDueBy
 
 export type FlowId = "leave" | "letter" | "benefits";
 export type Value = string | string[];
-export type Values = Record<string, Value>;
+type K = "topic" | "kind" | "status" | "start" | "include" | "purpose" | "purposeOther" | "name" | "id" | "title" | "rate" | "hours" | "contractEnd" | "noc" | "addressee" | "recipient" | "event" | "eventDate" | "anniv" | "band";
+export type Values = { [k: string]: Value | undefined } & { [P in K]?: Value };
 export type Option = { label: string; keywords: string[] };
 export type StepType = "choice" | "text" | "date" | "number" | "multi";
 export type Step = {
